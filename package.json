@@ -1,0 +1,8 @@
+{
+  "name": "pion-and-co-v3",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "node server.js"
+  }
+}

@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Пион & Co — цветочный магазин</title>
+<meta name="description" content="Пион & Co — цветочный магазин. Авторские букеты, композиции и растения с доставкой день в день.">
+<link rel="icon" href="brand/logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="brand/brand.css">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--ink);
+    font-family: var(--font-body); font-size: 17px; line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- Шапка ---------- */
+  .header { position: sticky; top: 0; z-index: 50; background: rgba(243,239,233,.88); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+  .header-in { display: flex; align-items: center; justify-content: space-between; gap: 24px; height: 72px; }
+  .logo img { height: 40px; width: auto; border-radius: 8px; }
+  .nav { display: flex; gap: 28px; font-size: 15px; font-weight: 500; }
+  .nav a { color: var(--ink-soft); transition: color .2s; padding: 6px 0; }
+  .nav a:hover { color: var(--accent); }
+
+  /* ---------- Кнопки ---------- */
+  .btn {
+    position: relative; overflow: hidden;
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    min-height: 48px; padding: 0 26px; border-radius: 999px;
+    background: var(--accent); color: var(--accent-ink);
+    font-weight: 700; font-size: 15px; letter-spacing: .01em;
+    border: 0; cursor: pointer;
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(158,58,82,.30); }
+  .btn:active { transform: translateY(0); }
+  .btn .shimmer {
+    position: absolute; inset: -40% auto -40% -30%; width: 36%;
+    background: linear-gradient(105deg, transparent, rgba(255,255,255,.45), transparent);
+    transform: skewX(-20deg) translateX(-160%);
+    transition: transform .7s ease; pointer-events: none;
+  }
+  .btn:hover .shimmer { transform: skewX(-20deg) translateX(460%); }
+  .btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); overflow: visible; }
+  .btn.ghost:hover { border-color: var(--accent); color: var(--accent); box-shadow: none; }
+
+  /* ---------- Hero ---------- */
+  .hero { padding-block: 72px 0; }
+  .hero-in { display: grid; grid-template-columns: 1.15fr .85fr; gap: 56px; align-items: end; }
+  .kicker {
+    display: inline-flex; align-items: center; gap: 10px;
+    color: var(--accent); font-size: 13px; font-weight: 700;
+    letter-spacing: .18em; text-transform: uppercase; margin-bottom: 22px;
+  }
+  .kicker::before { content: ""; width: 34px; height: 1px; background: var(--accent); }
+  h1 {
+    font-family: var(--font-display); font-weight: 700;
+    font-size: clamp(44px, 7.2vw, 88px); line-height: 1.04; letter-spacing: -.01em;
+    margin-bottom: 24px;
+  }
+  h1 em { font-style: italic; color: var(--accent); font-weight: 500; }
+  .hero p { max-width: 52ch; color: var(--ink-soft); margin-bottom: 36px; font-size: 18px; }
+  .hero-cta { display: flex; gap: 14px; flex-wrap: wrap; padding-bottom: 8px; }
+  .hero-photo { position: relative; }
+  .hero-photo img {
+    width: 100%; aspect-ratio: 3.4/4.4; object-fit: cover;
+    border-radius: 999px 999px var(--radius) var(--radius);
+    box-shadow: var(--shadow);
+  }
+  .hero-photo::after {
+    content: ""; position: absolute; inset: 14px -14px -14px 14px; z-index: -1;
+    border: 1px solid var(--accent); opacity: .45;
+    border-radius: 999px 999px var(--radius) var(--radius);
+  }
+
+  /* ---------- Бегущая строка ---------- */
+  .marquee { margin-top: 64px; border-block: 1px solid var(--line); padding-block: 16px; overflow: hidden; }
+  .marquee-track {
+    display: flex; gap: 48px; width: max-content;
+    font-family: var(--font-display); font-size: 20px; font-style: italic; color: var(--ink-soft);
+    animation: slide 30s linear infinite;
+  }
+  .marquee-track span { display: inline-flex; align-items: center; gap: 48px; white-space: nowrap; }
+  .marquee-track i { font-style: normal; color: var(--accent); font-size: 12px; }
+  @keyframes slide { to { transform: translateX(-50%); } }
+
+  /* ---------- Цифры ---------- */
+  .stats-in { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; padding-block: 64px; }
+  .stat b { display: block; font-family: var(--font-display); font-size: 46px; color: var(--accent); font-weight: 700; font-variant-numeric: tabular-nums; }
+  .stat span { color: var(--ink-soft); font-size: 14px; }
+
+  /* ---------- Секции ---------- */
+  section { padding-block: 40px 80px; }
+  .sec-head { max-width: 620px; margin-bottom: 52px; }
+  .sec-head h2 { font-family: var(--font-display); font-size: clamp(32px, 4.4vw, 48px); line-height: 1.12; font-weight: 700; }
+  .sec-head h2 em { font-style: italic; color: var(--accent); font-weight: 500; }
+  .sec-head p { color: var(--ink-soft); margin-top: 16px; }
+
+  /* ---------- Каталог ---------- */
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .card {
+    border-radius: var(--radius); overflow: hidden;
+    background: var(--card); border: 1px solid var(--line);
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+  .card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+  .card img { width: 100%; aspect-ratio: 4/5; object-fit: cover; }
+  .card figcaption { padding: 18px 20px; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+  .card .name { font-family: var(--font-display); font-size: 20px; }
+  .card .price { color: var(--accent); font-weight: 700; font-size: 15px; white-space: nowrap; }
+  .card.tall { grid-row: span 2; }
+  .card.tall img { aspect-ratio: 4/8.35; }
+
+  /* ---------- О нас ---------- */
+  .about { display: grid; grid-template-columns: .9fr 1.1fr; gap: 64px; align-items: center; }
+  .about-photo img { width: 100%; aspect-ratio: 4/5; object-fit: cover; border-radius: 999px 999px var(--radius) var(--radius); box-shadow: var(--shadow); }
+  .about-text h2 { font-family: var(--font-display); font-size: clamp(30px, 4vw, 42px); line-height: 1.18; margin-bottom: 22px; }
+  .about-text h2 em { font-style: italic; color: var(--accent); font-weight: 500; }
+  .about-text p { color: var(--ink-soft); margin-bottom: 18px; }
+  .about-list { list-style: none; margin-top: 26px; display: grid; gap: 14px; }
+  .about-list li { display: flex; gap: 14px; align-items: flex-start; font-weight: 500; }
+  .about-list svg { flex: none; margin-top: 4px; }
+
+  /* ---------- Доставка ---------- */
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .step { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 30px 26px; }
+  .step svg { margin-bottom: 18px; }
+  .step h3 { font-family: var(--font-display); font-size: 21px; margin-bottom: 10px; }
+  .step p { color: var(--ink-soft); font-size: 15px; }
+
+  /* ---------- Отзывы ---------- */
+  .reviews { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .review {
+    background: var(--bg-soft); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 28px 26px; display: flex; flex-direction: column; gap: 18px;
+  }
+  .review p { font-size: 15.5px; }
+  .review p::before { content: "«"; color: var(--accent); font-family: var(--font-display); font-size: 26px; line-height: 0; margin-right: 4px; }
+  .review footer { margin-top: auto; display: flex; align-items: center; gap: 12px; }
+  .review .ava {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--card); border: 1px solid var(--line);
+    display: grid; place-items: center;
+    font-family: var(--font-display); color: var(--accent); font-size: 17px;
+  }
+  .review .who b { display: block; font-size: 14.5px; }
+  .review .who span { color: var(--ink-soft); font-size: 13px; }
+
+  /* ---------- Контакты ---------- */
+  .contacts { background: var(--bg-soft); border-block: 1px solid var(--line); }
+  .contacts-in { display: grid; grid-template-columns: 1.1fr .9fr; gap: 56px; align-items: center; }
+  .contacts h2 { font-family: var(--font-display); font-size: clamp(30px, 4vw, 42px); line-height: 1.15; margin-bottom: 18px; }
+  .contacts h2 em { font-style: italic; color: var(--accent); font-weight: 500; }
+  .contacts .lead { color: var(--ink-soft); margin-bottom: 30px; }
+  .contact-rows { display: grid; gap: 16px; }
+  .contact-rows a, .contact-rows div { display: flex; align-items: center; gap: 14px; font-size: 17px; font-weight: 600; min-height: 44px; }
+  .contact-rows a { transition: color .2s; }
+  .contact-rows a:hover { color: var(--accent); }
+  .contact-rows svg { flex: none; }
+  .contact-rows small { display: block; color: var(--ink-soft); font-weight: 400; font-size: 13.5px; }
+  .contacts-card {
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 36px 32px; text-align: center; box-shadow: var(--shadow);
+  }
+  .contacts-card img { height: 54px; margin: 0 auto 18px; border-radius: 10px; }
+  .contacts-card p { color: var(--ink-soft); font-size: 15px; margin-bottom: 24px; }
+  .contacts-card .btn { width: 100%; }
+
+  /* ---------- Футер ---------- */
+  .footer { background: var(--dark); color: #b8ac9e; }
+  .footer-in { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding-block: 34px; font-size: 14px; }
+  .footer img { height: 32px; border-radius: 6px; }
+
+  /* ---------- Появление ---------- */
+  .reveal { transition: opacity .6s ease, transform .6s ease; }
+  .reveal.pre { opacity: 0; transform: translateY(18px); }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { transition: none; }
+    .marquee-track { animation: none; }
+    .btn .shimmer { display: none; }
+    .card, .card:hover { transition: none; transform: none; }
+  }
+
+  /* ---------- Мобильная версия ---------- */
+  @media (max-width: 900px) {
+    .nav { display: none; }
+    .hero-in { grid-template-columns: 1fr; gap: 40px; align-items: start; }
+    .hero-photo { max-width: 420px; }
+    .stats-in { grid-template-columns: repeat(2, 1fr); gap: 28px 16px; padding-block: 44px; }
+    .grid { grid-template-columns: repeat(2, 1fr); }
+    .card.tall { grid-row: auto; }
+    .card.tall img { aspect-ratio: 4/5; }
+    .about { grid-template-columns: 1fr; gap: 40px; }
+    .about-photo { max-width: 420px; }
+    .steps, .reviews { grid-template-columns: 1fr; }
+    .contacts-in { grid-template-columns: 1fr; gap: 40px; }
+    section { padding-block: 28px 56px; }
+    body { font-size: 16px; }
+  }
+  @media (max-width: 520px) {
+    .grid { grid-template-columns: 1fr; }
+    .btn { width: 100%; }
+    .hero-cta { flex-direction: column; }
+    .header-in .btn { width: auto; }
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="wrap header-in">
+    <a class="logo" href="#top" aria-label="Пион & Co — на главную">
+      <img src="brand/logo.svg" alt="Пион & Co" width="160" height="48">
+    </a>
+    <nav class="nav" aria-label="Основная навигация">
+      <a href="#catalog">Каталог</a>
+      <a href="#about">О нас</a>
+      <a href="#delivery">Доставка</a>
+      <a href="#reviews">Отзывы</a>
+      <a href="#contacts">Контакты</a>
+    </nav>
+    <a class="btn" href="#contacts"><span class="shimmer" aria-hidden="true"></span>Заказать букет</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="wrap hero-in">
+      <div>
+        <span class="kicker">Цветочный магазин</span>
+        <h1>Цветы,<br>которые <em>говорят</em><br>за вас</h1>
+        <p>«Пион & Co» — авторские букеты, композиции и растения. Собираем из свежих цветов в день заказа и привозим точно в срок.</p>
+        <div class="hero-cta">
+          <a class="btn" href="#contacts"><span class="shimmer" aria-hidden="true"></span>Заказать букет</a>
+          <a class="btn ghost" href="#catalog">Смотреть каталог</a>
+        </div>
+      </div>
+      <div class="hero-photo reveal"><img src="img/hero.jpg" alt="Букет пионов крупным планом"></div>
+    </div>
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span>Пионы <i>●</i> Розы <i>●</i> Гортензии <i>●</i> Ранункулюсы <i>●</i> Тюльпаны <i>●</i> Маттиола <i>●</i> Эвкалипт <i>●</i>&nbsp;</span>
+        <span>Пионы <i>●</i> Розы <i>●</i> Гортензии <i>●</i> Ранункулюсы <i>●</i> Тюльпаны <i>●</i> Маттиола <i>●</i> Эвкалипт <i>●</i>&nbsp;</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Цифры -->
+  <div class="wrap stats-in">
+    <div class="stat reveal"><b data-count="9">0</b><span>позиций в витрине</span></div>
+    <div class="stat reveal"><b data-count="2400" data-suffix=" ₽">0</b><span>самый доступный букет</span></div>
+    <div class="stat reveal"><b data-count="7">0</b><span>цветов в конструкторе</span></div>
+    <div class="stat reveal"><b data-count="2" data-suffix=" ч">0</b><span>средняя доставка по городу</span></div>
+  </div>
+
+  <!-- Каталог -->
+  <section id="catalog">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <h2>Витрина <em>недели</em></h2>
+        <p>Каждое утро отбираем цветы у поставщиков — в каталоге только то, что свежее сегодня.</p>
+      </div>
+      <div class="grid">
+        <figure class="card tall reveal"><img src="img/p1.jpg" alt="Букет розовых пионов"><figcaption><span class="name">Пионовый</span><span class="price">от 3 650 ₽</span></figcaption></figure>
+        <figure class="card reveal"><img src="img/p4.jpg" alt="Композиция полевых цветов"><figcaption><span class="name">Полевой микс</span><span class="price">от 2 900 ₽</span></figcaption></figure>
+        <figure class="card reveal"><img src="img/p7.jpg" alt="Монобукет роз"><figcaption><span class="name">Моно-роза</span><span class="price">от 3 733 ₽</span></figcaption></figure>
+        <figure class="card reveal"><img src="img/p2.jpg" alt="Букет в крафтовой упаковке"><figcaption><span class="name">Крафт</span><span class="price">от 2 400 ₽</span></figcaption></figure>
+        <figure class="card reveal"><img src="img/p5.jpg" alt="Комнатное растение в кашпо"><figcaption><span class="name">Зелень в кашпо</span><span class="price">от 2 900 ₽</span></figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- О нас -->
+  <section id="about">
+    <div class="wrap about">
+      <div class="about-photo reveal"><img src="img/p3.jpg" alt="Флорист собирает букет"></div>
+      <div class="about-text reveal">
+        <h2>Маленький магазин с <em>большим</em> вкусом</h2>
+        <p>Мы — камерная цветочная мастерская. Не гонимся за ассортиментом «всё сразу»: держим короткую витрину из проверенных позиций и отвечаем за каждый стебель.</p>
+        <ul class="about-list">
+          <li><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#9e3a52" stroke-width="1.5"/><path d="M6 10.5l2.5 2.5L14 7.5" stroke="#9e3a52" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Только свежие цветы дня — без «вчерашних» букетов</li>
+          <li><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#9e3a52" stroke-width="1.5"/><path d="M6 10.5l2.5 2.5L14 7.5" stroke="#9e3a52" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Конструктор: соберите букет сами, стебель от 210 ₽</li>
+          <li><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#9e3a52" stroke-width="1.5"/><path d="M6 10.5l2.5 2.5L14 7.5" stroke="#9e3a52" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Открытка с вашим текстом — в каждый заказ</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Доставка -->
+  <section id="delivery">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <h2>Доставка <em>день в день</em></h2>
+        <p>Принимаем заказы до 19:00 — вечером букет уже у получателя.</p>
+      </div>
+      <div class="steps">
+        <div class="step reveal">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M12 21c-4 0-7-2.6-7-6 0-2.5 1.8-4.4 3.6-5.2C8 8.4 8 7.7 8 7c0-2.2 1.8-4 4-4s4 1.8 4 4c0 .7 0 1.4-.6 2.8 1.8.8 3.6 2.7 3.6 5.2 0 3.4-3 6-7 6z" stroke="#9e3a52" stroke-width="1.5" stroke-linejoin="round"/></svg>
+          <h3>Выбираете букет</h3>
+          <p>Готовый из каталога или свой — в конструкторе из семи сезонных цветов.</p>
+        </div>
+        <div class="step reveal">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M4 8h13v9H4zM17 10h3l1 3v4h-4" stroke="#9e3a52" stroke-width="1.5" stroke-linejoin="round"/><circle cx="8" cy="18.5" r="1.8" stroke="#9e3a52" stroke-width="1.5"/><circle cx="17.5" cy="18.5" r="1.8" stroke="#9e3a52" stroke-width="1.5"/></svg>
+          <h3>Собираем и бережно везём</h3>
+          <p>Флорист собирает заказ за час до доставки, курьер везёт в защитной упаковке.</p>
+        </div>
+        <div class="step reveal">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><rect x="4" y="8" width="16" height="12" rx="2" stroke="#9e3a52" stroke-width="1.5"/><path d="M4 10l8 5 8-5" stroke="#9e3a52" stroke-width="1.5" stroke-linejoin="round"/></svg>
+          <h3>Вручаем лично</h3>
+          <p>Привозим к точному времени, пришлём фото букета до отправки — по запросу.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Отзывы -->
+  <section id="reviews">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <h2>Говорят <em>клиенты</em></h2>
+      </div>
+      <div class="reviews">
+        <article class="review reveal">
+          <p>Заказывала маме на юбилей — привезли точно к ужину, пионы стояли больше недели. Фото до отправки очень успокоило.</p>
+          <footer><span class="ava">М</span><span class="who"><b>Марина</b><span>заказ от 12 ноября</span></span></footer>
+        </article>
+        <article class="review reveal">
+          <p>Собрал букет в конструкторе сам — получилось дешевле готового и ровно так, как хотел. Девушка в восторге.</p>
+          <footer><span class="ava">Д</span><span class="who"><b>Дмитрий</b><span>заказ от 8 ноября</span></span></footer>
+        </article>
+        <article class="review reveal">
+          <p>Беру цветы в офис каждую неделю. Витрина небольшая, но всегда свежая — видно, что не хранят залежи.</p>
+          <footer><span class="ava">А</span><span class="who"><b>Алина</b><span>постоянный клиент</span></span></footer>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Контакты -->
+  <section id="contacts" class="contacts">
+    <div class="wrap contacts-in">
+      <div class="reveal">
+        <h2>Закажите <em>сегодня</em> — вручим сегодня</h2>
+        <p class="lead">Позвоните или напишите — подскажем по наличию, поможем с выбором и оформим доставку за пару минут.</p>
+        <div class="contact-rows">
+          <a href="tel:+74951234567">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M5 4h4l2 5-2.5 1.5a12 12 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z" stroke="#9e3a52" stroke-width="1.5" stroke-linejoin="round"/></svg>
+            <span>+7 (495) 123-45-67<small>ежедневно с 9:00 до 21:00</small></span>
+          </a>
+          <a href="mailto:privet@pion-and-co.ru">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="#9e3a52" stroke-width="1.5"/><path d="M3 7l9 6 9-6" stroke="#9e3a52" stroke-width="1.5" stroke-linejoin="round"/></svg>
+            <span>privet@pion-and-co.ru<small>ответим в течение часа</small></span>
+          </a>
+          <div>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 21s7-5.1 7-11a7 7 0 10-14 0c0 5.9 7 11 7 11z" stroke="#9e3a52" stroke-width="1.5"/><circle cx="12" cy="10" r="2.5" stroke="#9e3a52" stroke-width="1.5"/></svg>
+            <span>ул. Цветочная, 12<small>самовывоз со скидкой 5 %</small></span>
+          </div>
+        </div>
+      </div>
+      <div class="contacts-card reveal">
+        <img src="brand/logo.svg" alt="Пион & Co" width="160" height="48">
+        <p>Оставьте заявку — перезвоним, уточним детали и подтвердим время доставки.</p>
+        <a class="btn" href="tel:+74951234567"><span class="shimmer" aria-hidden="true"></span>Позвонить в магазин</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-in">
+    <img src="brand/logo.svg" alt="Пион & Co" width="120" height="36">
+    <span>© 2026 Пион & Co — цветочный магазин</span>
+  </div>
+</footer>
+
+<script>
+  // Плавное появление блоков (улучшение: без JS всё видно сразу)
+  var reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if ('IntersectionObserver' in window && !reduceMotion) {
+    var els = document.querySelectorAll('.reveal');
+    els.forEach(function (el) { el.classList.add('pre'); });
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.remove('pre'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.12 });
+    els.forEach(function (el) { io.observe(el); });
+  }
+
+  // Счётчики цифр (number ticker)
+  function fmt(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' '); }
+  function count(el) {
+    var target = parseInt(el.dataset.count, 10);
+    var suffix = el.dataset.suffix || '';
+    if (reduceMotion) { el.textContent = fmt(target) + suffix; return; }
+    var t0 = null, dur = 1100;
+    function tick(ts) {
+      if (!t0) t0 = ts;
+      var p = Math.min((ts - t0) / dur, 1);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = fmt(Math.round(target * eased)) + suffix;
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  if ('IntersectionObserver' in window) {
+    var nums = document.querySelectorAll('[data-count]');
+    var io2 = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { count(e.target); io2.unobserve(e.target); }
+      });
+    }, { threshold: 0.4 });
+    nums.forEach(function (el) { io2.observe(el); });
+  } else {
+    document.querySelectorAll('[data-count]').forEach(count);
+  }
+</script>
+</body>
+</html>

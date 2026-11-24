@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 96">
+  <rect width="320" height="96" rx="20" fill="#191512"/>
+  <circle cx="48" cy="48" r="26" fill="none" stroke="#d4a24e" stroke-width="2"/>
+  <text x="48" y="57" font-family="Georgia, 'Times New Roman', serif" font-size="28" font-style="italic" fill="#d4a24e" text-anchor="middle">П</text>
+  <text x="92" y="58" font-family="Georgia, 'Times New Roman', serif" font-size="30" fill="#f0e9e0">Пион &amp; Co</text>
+</svg>

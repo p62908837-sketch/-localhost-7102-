@@ -1,0 +1,23 @@
+/* Пион & Co — вариант 3 «Тихая роскошь» (светлая каменная тема)
+   Импорт: <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+*/
+:root {
+  /* Цвета */
+  --bg: #f3efe9;          /* каменный светлый фон */
+  --bg-soft: #eae4da;     /* приподнятые поверхности */
+  --card: #faf8f4;        /* карточки */
+  --line: #d9d1c3;        /* линии и рамки */
+  --ink: #26211d;         /* основной текст (фирменный тёмный) */
+  --ink-soft: #6f6558;    /* второстепенный текст */
+  --accent: #9e3a52;      /* шелковица — точечный насыщенный акцент */
+  --accent-ink: #faf8f4;  /* текст на акценте */
+  --dark: #191512;        /* фирменный тёмный (футер, контрасты) */
+
+  /* Шрифты */
+  --font-display: 'Playfair Display', serif;  /* заголовки */
+  --font-body: 'Manrope', system-ui, sans-serif; /* текст */
+
+  /* Форма */
+  --radius: 18px;
+  --shadow: 0 18px 44px rgba(38, 33, 29, .12);
+}
