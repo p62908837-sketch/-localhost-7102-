@@ -41,8 +41,13 @@
     font-weight: 700; font-size: 15px; letter-spacing: .01em;
     border: 0; cursor: pointer;
     transition: transform .2s ease, box-shadow .2s ease;
+    animation: btnGlow 2.8s ease-in-out infinite;
   }
-  .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(158,58,82,.30); }
+  @keyframes btnGlow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(158,58,82,.45), 0 6px 18px rgba(158,58,82,.25); }
+    50% { box-shadow: 0 0 0 9px rgba(158,58,82,0), 0 10px 30px rgba(158,58,82,.45); }
+  }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(158,58,82,.45); }
   .btn:active { transform: translateY(0); }
   .btn .shimmer {
     position: absolute; inset: -40% auto -40% -30%; width: 36%;
@@ -51,8 +56,18 @@
     transition: transform .7s ease; pointer-events: none;
   }
   .btn:hover .shimmer { transform: skewX(-20deg) translateX(460%); }
-  .btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); overflow: visible; }
-  .btn.ghost:hover { border-color: var(--accent); color: var(--accent); box-shadow: none; }
+  .btn .ripple {
+    position: absolute; border-radius: 50%; pointer-events: none;
+    background: rgba(255,255,255,.55);
+    transform: scale(0); opacity: .9;
+    animation: btnRipple .65s ease-out forwards;
+  }
+  @keyframes btnRipple {
+    to { transform: scale(1); opacity: 0; }
+  }
+  .btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); animation: none; }
+  .btn.ghost .ripple { background: rgba(158,58,82,.28); }
+  .btn.ghost:hover { border-color: var(--accent); color: var(--accent); box-shadow: 0 8px 22px rgba(158,58,82,.18); }
 
   /* ---------- Hero ---------- */
   .hero { padding-block: 72px 0; }
@@ -189,6 +204,7 @@
     .reveal { transition: none; }
     .marquee-track { animation: none; }
     .btn .shimmer { display: none; }
+    .btn { animation: none; }
     .card, .card:hover { transition: none; transform: none; }
   }
 
@@ -390,6 +406,25 @@
 <script>
   // Плавное появление блоков (улучшение: без JS всё видно сразу)
   var reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Волна при клике на кнопки
+  if (!reduceMotion) {
+    document.querySelectorAll('.btn').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        var rect = btn.getBoundingClientRect();
+        var d = Math.max(rect.width, rect.height) * 2.2;
+        var x = (e.clientX || rect.left + rect.width / 2) - rect.left - d / 2;
+        var y = (e.clientY || rect.top + rect.height / 2) - rect.top - d / 2;
+        var r = document.createElement('span');
+        r.className = 'ripple';
+        r.style.width = r.style.height = d + 'px';
+        r.style.left = x + 'px';
+        r.style.top = y + 'px';
+        btn.appendChild(r);
+        setTimeout(function () { r.remove(); }, 700);
+      });
+    });
+  }
   if ('IntersectionObserver' in window && !reduceMotion) {
     var els = document.querySelectorAll('.reveal');
     els.forEach(function (el) { el.classList.add('pre'); });
